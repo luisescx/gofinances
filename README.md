@@ -2,9 +2,9 @@
   Gofinances
 </h1>
 
-<h4 align="center">App desenvolvido durante o curso de React Native da Rockeseat, um app para o controle de finanças pessoais</h4>
+<h4 align="center">App desenvolvido durante o curso de React Native da Rockeseat, um app para controle de finanças pessoais</h4>
 
-![] (https://github.com/luisescx/gofinances/blob/master/assets/preview.png)
+![](https://github.com/luisescx/gofinances/blob/master/assets/preview.png)
 
 **Link Figma:** https://www.figma.com/file/48vkXzQNckLbbiKLf3PCy8/GoFinances-Ignite
 
