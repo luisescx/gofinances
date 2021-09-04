@@ -9,7 +9,6 @@ import {
     Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
-import { StatusBar } from "react-native";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
