@@ -8,7 +8,7 @@
 
 **Link Figma:** https://www.figma.com/file/48vkXzQNckLbbiKLf3PCy8/GoFinances-Ignite
 
-## 🚀 Como executar
+## 🚀 Como executar :guardsman:
 
 <ul>
   <li> Clonar o projeto em seu computador</li>
