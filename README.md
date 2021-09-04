@@ -1,5 +1,5 @@
 <h1 align="center">
-  Gofinances
+  gofinances
 </h1>
 
 <h4 align="center">App desenvolvido durante o curso de React Native da Rockeseat, um app para controle de finanças pessoais</h4>
