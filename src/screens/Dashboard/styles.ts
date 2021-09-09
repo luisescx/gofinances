@@ -6,7 +6,7 @@ import {
     getStatusBarHeight,
 } from "react-native-iphone-x-helper";
 import { FlatList } from "react-native";
-import { Transaction } from "../components/TransactionCard";
+import { Transaction } from "../../components/TransactionCard";
 
 export const Container = styled.View`
     flex: 1;

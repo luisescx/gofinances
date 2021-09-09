@@ -16,8 +16,8 @@ import {
     TransactionCards,
 } from "./styles";
 import { TouchableOpacity } from "react-native";
-import HighlightCard from "../components/HighlightCard";
-import TransactionCard, { Transaction } from "../components/TransactionCard";
+import HighlightCard from "../../components/HighlightCard";
+import TransactionCard, { Transaction } from "../../components/TransactionCard";
 
 const Dashboard = () => {
     const transactions = [

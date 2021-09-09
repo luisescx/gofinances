@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "styled-components/native";
-import Dashboard from "./src/Dashboard";
+import Dashboard from "./src/screens/Dashboard";
 import theme from "./src/global/styles/theme";
 import {
     useFonts,
@@ -9,6 +9,7 @@ import {
     Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
+import Register from "./src/screens/Register";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -26,7 +27,8 @@ export default function App() {
             {/* <StatusBar barStyle="light-content" translucent={true} /> */}
 
             <ThemeProvider theme={theme}>
-                <Dashboard />
+                {/* <Dashboard /> */}
+                <Register />
             </ThemeProvider>
         </>
     );
