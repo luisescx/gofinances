@@ -10,6 +10,8 @@ import {
 } from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
 import Register from "./src/screens/Register";
+import CategorySelect from "./src/screens/Register/CategorySelect";
+import { StatusBar } from "react-native";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -24,11 +26,15 @@ export default function App() {
 
     return (
         <>
-            {/* <StatusBar barStyle="light-content" translucent={true} /> */}
-
+            <StatusBar
+                barStyle="light-content"
+                translucent={true}
+                backgroundColor={theme.colors.primary}
+            />
             <ThemeProvider theme={theme}>
                 {/* <Dashboard /> */}
-                <Register />
+                {/* <Register /> */}
+                <CategorySelect />
             </ThemeProvider>
         </>
     );
