@@ -1,7 +1,8 @@
 import React from "react";
-import { FlatList } from "react-native";
-import { Button } from "../../../components/Form/Button";
-import { categories } from "../../../utils/categories";
+import { FlatList, StatusBar } from "react-native";
+import { Button } from "../../components/Form/Button";
+import { categories } from "../../utils/categories";
+import theme from "../../global/styles/theme";
 import {
     Container,
     Header,
@@ -19,12 +20,21 @@ interface Category {
 }
 
 interface Props {
-    category: string;
+    category: Category;
     setCategory: (category: Category) => void;
     closeSelectCategory: () => void;
 }
 
-const CategorySelect = () => {
+const CategorySelect = ({
+    closeSelectCategory,
+    setCategory,
+    category,
+}: Props) => {
+    const handleSelectedCategory = (newCategory: Category) => {
+        console.log(newCategory);
+        setCategory(newCategory);
+    };
+
     return (
         <Container>
             <Header>
@@ -37,7 +47,10 @@ const CategorySelect = () => {
                 style={{ flex: 1, width: "100%" }}
                 renderItem={({ item }) => (
                     <>
-                        <Category>
+                        <Category
+                            onPress={() => handleSelectedCategory(item)}
+                            isActive={category.key === item.key}
+                        >
                             <Icon name={item.icon} />
                             <Name>{item.name}</Name>
                         </Category>
@@ -47,7 +60,7 @@ const CategorySelect = () => {
             />
 
             <Footer>
-                <Button title="Selecionar" />
+                <Button title="Selecionar" onPress={closeSelectCategory} />
             </Footer>
         </Container>
     );

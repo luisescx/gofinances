@@ -10,7 +10,6 @@ import {
 } from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
 import Register from "./src/screens/Register";
-import CategorySelect from "./src/screens/Register/CategorySelect";
 import { StatusBar } from "react-native";
 
 export default function App() {
@@ -33,8 +32,7 @@ export default function App() {
             />
             <ThemeProvider theme={theme}>
                 {/* <Dashboard /> */}
-                {/* <Register /> */}
-                <CategorySelect />
+                <Register />
             </ThemeProvider>
         </>
     );
