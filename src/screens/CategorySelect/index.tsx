@@ -31,7 +31,6 @@ const CategorySelect = ({
     category,
 }: Props) => {
     const handleSelectedCategory = (newCategory: Category) => {
-        console.log(newCategory);
         setCategory(newCategory);
     };
 
