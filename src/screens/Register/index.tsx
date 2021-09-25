@@ -97,6 +97,7 @@ const Register = () => {
                             autoCorrect={false}
                             error={errors.name && errors.name.message}
                         />
+
                         <InputForm
                             control={control}
                             name="amount"
@@ -129,7 +130,7 @@ const Register = () => {
 
                     <Button
                         title="Enviar"
-                        onPress={handleSubmit(handleRegister)}
+                        onPress={() => handleSubmit(handleRegister)}
                     />
                 </Form>
 

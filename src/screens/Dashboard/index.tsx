@@ -14,8 +14,8 @@ import {
     Transactions,
     Title,
     TransactionCards,
+    LogoutButton,
 } from "./styles";
-import { TouchableOpacity } from "react-native";
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard, { Transaction } from "../../components/TransactionCard";
 
@@ -73,9 +73,9 @@ const Dashboard = () => {
                             <UserName>Luis</UserName>
                         </User>
                     </UserInfo>
-                    <TouchableOpacity>
+                    <LogoutButton>
                         <Icon name="power" />
-                    </TouchableOpacity>
+                    </LogoutButton>
                 </UserWrapper>
             </Header>
 
