@@ -30,8 +30,8 @@ const CategorySelect = ({
     setCategory,
     category,
 }: Props) => {
-    const handleSelectedCategory = (newCategory: Category) => {
-        setCategory(newCategory);
+    const handleSelectedCategory = ({ key, name }: Category) => {
+        setCategory({ key, name });
     };
 
     return (

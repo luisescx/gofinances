@@ -17,7 +17,7 @@ interface Category {
     icon: string;
 }
 
-export interface Transaction {
+export interface TransactionCardProps {
     id?: string;
     type: "positive" | "negative";
     title: string;
@@ -27,7 +27,7 @@ export interface Transaction {
 }
 
 interface TransactionProps {
-    transaction: Transaction;
+    transaction: TransactionCardProps;
 }
 
 const TransactionCard = ({ transaction }: TransactionProps) => {

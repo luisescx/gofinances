@@ -17,7 +17,9 @@ import {
     LogoutButton,
 } from "./styles";
 import HighlightCard from "../../components/HighlightCard";
-import TransactionCard, { Transaction } from "../../components/TransactionCard";
+import TransactionCard, {
+    TransactionCardProps,
+} from "../../components/TransactionCard";
 
 const Dashboard = () => {
     const transactions = [
@@ -57,7 +59,7 @@ const Dashboard = () => {
             },
             date: "13/04/2021",
         },
-    ] as Transaction[];
+    ] as TransactionCardProps[];
 
     return (
         <Container>

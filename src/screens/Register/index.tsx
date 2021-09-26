@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     Container,
@@ -17,11 +17,15 @@ import InputForm from "../../components/Form/InputForm";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Transaction } from "../../common/interfaces";
+import { TransactionType } from "../../common/enums";
 
 interface FormData {
     name: string;
 
-    amount: string;
+    amount: number;
 }
 
 const schema = yup.object().shape({
@@ -34,22 +38,43 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
-    const [transactionType, setTransactionType] = useState("");
+    const [transactionType, setTransactionType] =
+        useState<TransactionType | null>();
     const [showModal, setShowModal] = useState(false);
     const [category, setCategory] = useState({
         key: "category",
         name: "Categoria",
     });
 
+    const dataKey = "@gofinances:transactions";
+
+    const navigation = useNavigation();
+
     const {
         control,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const handleTransactionType = (type: "up" | "down") => {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("blur", () => {
+            setTransactionType(null);
+
+            setCategory({
+                key: "category",
+                name: "Categoria",
+            });
+
+            reset();
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
+    const handleTransactionType = (type: TransactionType) => {
         setTransactionType(type);
     };
 
@@ -61,8 +86,8 @@ const Register = () => {
         setShowModal(false);
     };
 
-    const handleRegister = (form: FormData) => {
-        if (transactionType === "") {
+    const handleRegister = async (form: FormData) => {
+        if (!transactionType) {
             return Alert.alert("Selecione um tipo de transação");
         }
 
@@ -70,15 +95,38 @@ const Register = () => {
             return Alert.alert("Selecione uma categoria");
         }
 
-        const data = {
-            category: category.key,
-            transactionType,
+        const newTransaction: Transaction = {
+            category,
+            type: transactionType,
             name: form.name,
             amount: form.amount,
         };
 
-        console.log(data);
+        try {
+            const transactionsData = await AsyncStorage.getItem(dataKey);
+
+            const storagedTransactions =
+                transactionsData && transactionsData.length > 0
+                    ? JSON.parse(transactionsData)
+                    : [];
+
+            const transactions = [...storagedTransactions, newTransaction];
+
+            await AsyncStorage.setItem(dataKey, JSON.stringify(transactions));
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Não foi possível salvar");
+        }
     };
+
+    useEffect(() => {
+        const getData = async () => {
+            const data = await AsyncStorage.getItem(dataKey);
+            console.log("objeto useEffect", JSON.parse(data!));
+        };
+
+        getData();
+    }, []);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -110,15 +158,27 @@ const Register = () => {
                             <TransactionButton
                                 title="Income"
                                 type="up"
-                                onPress={() => handleTransactionType("up")}
-                                isActive={transactionType === "up"}
+                                onPress={() =>
+                                    handleTransactionType(
+                                        TransactionType.income
+                                    )
+                                }
+                                isActive={
+                                    transactionType === TransactionType.income
+                                }
                             />
 
                             <TransactionButton
                                 title="Outcome"
                                 type="down"
-                                onPress={() => handleTransactionType("down")}
-                                isActive={transactionType === "down"}
+                                onPress={() =>
+                                    handleTransactionType(
+                                        TransactionType.outcome
+                                    )
+                                }
+                                isActive={
+                                    transactionType === TransactionType.outcome
+                                }
                             />
                         </TransactionTypes>
 
@@ -130,7 +190,7 @@ const Register = () => {
 
                     <Button
                         title="Enviar"
-                        onPress={() => handleSubmit(handleRegister)}
+                        onPress={handleSubmit(handleRegister)}
                     />
                 </Form>
 
