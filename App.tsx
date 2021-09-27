@@ -11,6 +11,9 @@ import AppLoading from "expo-app-loading";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AppRoutes from "./src/routes/app.routes";
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
+import "react-native-gesture-handler";
 
 export default function App() {
     const [fontsLoaded] = useFonts({

@@ -5,8 +5,9 @@ import Dashboard from "../screens/Dashboard";
 import Register from "../screens/Register";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import { RootParamList } from "../common/interfaces";
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<RootParamList>();
 
 const AppRoutes = () => {
     const theme = useTheme();

@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList, StatusBar } from "react-native";
 import { Button } from "../../components/Form/Button";
 import { categories } from "../../utils/categories";
-import theme from "../../global/styles/theme";
+
 import {
     Container,
     Header,

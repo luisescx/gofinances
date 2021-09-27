@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 
 import {
     Container,
@@ -17,49 +17,56 @@ import {
     LogoutButton,
 } from "./styles";
 import HighlightCard from "../../components/HighlightCard";
-import TransactionCard, {
-    TransactionCardProps,
-} from "../../components/TransactionCard";
+import TransactionCard from "../../components/TransactionCard";
+import { Transaction } from "../../common/interfaces";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/core";
 
 const Dashboard = () => {
-    const transactions = [
-        {
-            id: "1",
-            type: "positive",
-            title: "Desenvolvimento de site",
-            amount: "R$ 12.000,00",
-            category: {
-                key: "salary",
-                name: "Vendas",
-                icon: "dollar-sign",
-            },
-            date: "13/04/2021",
-        },
-        {
-            id: "2",
-            type: "negative",
-            title: "Hamburgueria",
-            amount: "R$ 50,00",
-            category: {
-                key: "salary",
-                name: "Alimentação",
-                icon: "coffee",
-            },
-            date: "13/04/2021",
-        },
-        {
-            id: "3",
-            type: "negative",
-            title: "Aluguel Apto",
-            amount: "R$ 1.200,00",
-            category: {
-                key: "salary",
-                name: "Casa",
-                icon: "shopping-bag",
-            },
-            date: "13/04/2021",
-        },
-    ] as TransactionCardProps[];
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    const loadTransactions = async () => {
+        try {
+            const response = await AsyncStorage.getItem(
+                "@gofinances:transactions"
+            );
+
+            const storedTransactions: Transaction[] = response
+                ? JSON.parse(response)
+                : [];
+
+            const formattedTransactions = storedTransactions.map(
+                (storedTransaction: Transaction) => {
+                    const amount = Number(storedTransaction.amount.toFixed(2));
+
+                    const date = Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    }).format(new Date(storedTransaction.date));
+
+                    return {
+                        ...storedTransaction,
+                        amount,
+                        date,
+                    };
+                }
+            );
+
+            setTransactions(formattedTransactions);
+        } catch (error) {
+            console.log(error);
+            setTransactions([]);
+            Alert.alert("Não foi possível salvar");
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            loadTransactions();
+        }, [])
+    );
 
     return (
         <Container>
@@ -67,7 +74,7 @@ const Dashboard = () => {
                 <UserWrapper>
                     <UserInfo>
                         <Photo
-                            source={{ uri: "https://github.com/luisescx.png" }}
+                            source={require("../../../assets/img/user-avatar.png")}
                         />
 
                         <User>

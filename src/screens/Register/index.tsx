@@ -13,14 +13,18 @@ import TransactionButton from "../../components/Form/TransactionButton";
 import CategorySelectButton from "../../components/CategorySelectButton";
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
 import CategorySelect from "../CategorySelect";
-import InputForm from "../../components/Form/InputForm";
+import InputForm, { FormValues } from "../../components/Form/InputForm";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Transaction } from "../../common/interfaces";
-import { TransactionType } from "../../common/enums";
+import {
+    ProfileScreenNavigationProp,
+    Transaction,
+} from "../../common/interfaces";
+import { NavigateEnum, TransactionType } from "../../common/enums";
+import uuid from "react-native-uuid";
 
 interface FormData {
     name: string;
@@ -28,14 +32,17 @@ interface FormData {
     amount: number;
 }
 
-const schema = yup.object().shape({
-    name: yup.string().required("Nome é obrigatório"),
-    amount: yup
-        .number()
-        .typeError("Informe um valor númerico")
-        .positive("O valor não pode ser negativo")
-        .required("Preço é obrigatório"),
-});
+const schema = yup
+    .object()
+    .shape({
+        name: yup.string().required("Nome é obrigatório"),
+        amount: yup
+            .number()
+            .typeError("Informe um valor númerico")
+            .positive("O valor não pode ser negativo")
+            .required("Preço é obrigatório"),
+    })
+    .required();
 
 const Register = () => {
     const [transactionType, setTransactionType] =
@@ -46,16 +53,14 @@ const Register = () => {
         name: "Categoria",
     });
 
-    const dataKey = "@gofinances:transactions";
-
-    const navigation = useNavigation();
+    const navigation = useNavigation<ProfileScreenNavigationProp>();
 
     const {
         control,
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm({
+    } = useForm<FormValues>({
         resolver: yupResolver(schema),
     });
 
@@ -96,13 +101,19 @@ const Register = () => {
         }
 
         const newTransaction: Transaction = {
-            category,
+            id: String(uuid.v4()),
+            category: {
+                key: category.key,
+            },
             type: transactionType,
             name: form.name,
             amount: form.amount,
+            date: new Date().toUTCString(),
         };
 
         try {
+            const dataKey = "@gofinances:transactions";
+
             const transactionsData = await AsyncStorage.getItem(dataKey);
 
             const storagedTransactions =
@@ -113,20 +124,13 @@ const Register = () => {
             const transactions = [...storagedTransactions, newTransaction];
 
             await AsyncStorage.setItem(dataKey, JSON.stringify(transactions));
+
+            navigation.navigate(NavigateEnum.listagem);
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível salvar");
         }
     };
-
-    useEffect(() => {
-        const getData = async () => {
-            const data = await AsyncStorage.getItem(dataKey);
-            console.log("objeto useEffect", JSON.parse(data!));
-        };
-
-        getData();
-    }, []);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -143,7 +147,7 @@ const Register = () => {
                             placeholder="Nome"
                             autoCapitalize="sentences"
                             autoCorrect={false}
-                            error={errors.name && errors.name.message}
+                            error={errors.name?.message}
                         />
 
                         <InputForm
@@ -151,7 +155,7 @@ const Register = () => {
                             name="amount"
                             placeholder="Preço"
                             keyboardType="numeric"
-                            error={errors.amount && errors.amount.message}
+                            error={errors.amount?.message}
                         />
 
                         <TransactionTypes>

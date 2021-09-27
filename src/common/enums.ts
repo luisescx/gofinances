@@ -1,4 +1,10 @@
 export enum TransactionType {
-    income = "up",
-    outcome = "down",
+    income = "income",
+    outcome = "outcome",
+}
+
+export enum NavigateEnum {
+    listagem = "Listagem",
+    cadastrar = "Cadastrar",
+    resumo = "Resumo",
 }

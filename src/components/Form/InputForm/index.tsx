@@ -1,15 +1,21 @@
 import React from "react";
-import { Control, Controller } from "react-hook-form";
+import { Controller, Control, FieldValues } from "react-hook-form";
 import { TextInputProps } from "react-native";
 import Input from "../Input";
 import { Container, Error } from "./styles";
 
 interface Props extends TextInputProps {
-    control: Control;
+    control: Control<FormValues>;
 
     name: string;
 
     error: string | undefined;
+}
+
+export interface FormValues extends FieldValues {
+    name: string;
+
+    amount: string;
 }
 
 const InputForm = ({ control, name, error, ...rest }: Props) => {

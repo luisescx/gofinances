@@ -6,8 +6,8 @@ import {
     getStatusBarHeight,
 } from "react-native-iphone-x-helper";
 import { FlatList } from "react-native";
-import { TransactionCardProps } from "../../components/TransactionCard";
 import { BorderlessButton } from "react-native-gesture-handler";
+import { Transaction } from "../../common/interfaces";
 
 export const Container = styled.View`
     flex: 1;
@@ -91,7 +91,7 @@ export const Transactions = styled.View`
 `;
 
 export const TransactionCards = styled(
-    FlatList as new () => FlatList<TransactionCardProps>
+    FlatList as new () => FlatList<Transaction>
 ).attrs({
     showsVerticalScrollIndicator: false,
     contentContainerStyle: { paddingBottom: getBottomSpace() + RFValue(16) },

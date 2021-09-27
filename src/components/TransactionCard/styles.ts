@@ -1,9 +1,10 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import styled from "styled-components/native";
+import { TransactionType } from "../../common/enums";
 
-interface TransactionType {
-    type: "positive" | "negative";
+interface TransactionTypeProp {
+    type: TransactionType;
 }
 
 export const Container = styled.View`
@@ -20,11 +21,13 @@ export const Title = styled.Text`
     font-size: ${RFValue(14)}px;
 `;
 
-export const Amount = styled.Text<TransactionType>`
+export const Amount = styled.Text<TransactionTypeProp>`
     font-family: ${({ theme }) => theme.fonts.regular};
     font-size: ${RFValue(20)}px;
     color: ${({ theme, type }) =>
-        type === "positive" ? theme.colors.success : theme.colors.danger};
+        type === TransactionType.income
+            ? theme.colors.success
+            : theme.colors.danger};
 `;
 
 export const Footer = styled.View`

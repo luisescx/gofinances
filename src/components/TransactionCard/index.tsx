@@ -1,4 +1,7 @@
 import React from "react";
+import { TransactionType } from "../../common/enums";
+import { Transaction } from "../../common/interfaces";
+import { categories } from "../../utils/categories";
 
 import {
     Container,
@@ -11,40 +14,34 @@ import {
     TransactionDate,
 } from "./styles";
 
-interface Category {
-    key: string;
-    name: string;
-    icon: string;
-}
-
-export interface TransactionCardProps {
-    id?: string;
-    type: "positive" | "negative";
-    title: string;
-    amount: string;
-    category: Category;
-    date: string;
-}
-
 interface TransactionProps {
-    transaction: TransactionCardProps;
+    transaction: Transaction;
 }
 
 const TransactionCard = ({ transaction }: TransactionProps) => {
+    const category = categories.find(
+        ({ key }) => key === transaction.category.key
+    );
+
+    const formattedAmount = Number(transaction.amount).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    });
+
     return (
         <Container>
-            <Title>{transaction.title}</Title>
+            <Title>{transaction.name}</Title>
 
             <Amount type={transaction.type}>
-                {transaction.type === "positive"
-                    ? transaction.amount
-                    : "- " + transaction.amount}
+                {transaction.type === TransactionType.income
+                    ? formattedAmount
+                    : "- " + formattedAmount}
             </Amount>
 
             <Footer>
                 <Category>
-                    <Icon name={transaction.category.icon} />
-                    <CategoryName>{transaction.category.name}</CategoryName>
+                    <Icon name={category?.icon} />
+                    <CategoryName>{category?.name}</CategoryName>
                 </Category>
 
                 <TransactionDate>{transaction.date}</TransactionDate>
