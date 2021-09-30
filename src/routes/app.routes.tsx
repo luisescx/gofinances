@@ -6,6 +6,7 @@ import Register from "../screens/Register";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import { RootParamList } from "../common/interfaces";
+import Resume from "../screens/Resume";
 
 const { Navigator, Screen } = createBottomTabNavigator<RootParamList>();
 
@@ -55,7 +56,7 @@ const AppRoutes = () => {
 
             <Screen
                 name="Resumo"
-                component={Register}
+                component={Resume}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <MaterialIcons
