@@ -1,5 +1,5 @@
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import {
     getBottomSpace,
@@ -103,3 +103,9 @@ export const Title = styled.Text`
 `;
 
 export const LogoutButton = styled(BorderlessButton)``;
+
+export const LoadContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
