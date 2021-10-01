@@ -15,6 +15,14 @@ export interface Transaction {
     date: string;
 }
 
+export interface Category {
+    key: string;
+    name: string;
+    total: number;
+    color: string;
+    percent?: string;
+}
+
 export type RootParamList = {
     Listagem: undefined;
     Cadastrar: undefined;
