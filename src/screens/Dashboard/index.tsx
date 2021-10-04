@@ -202,7 +202,7 @@ const Dashboard = () => {
                         <UserWrapper>
                             <UserInfo>
                                 <Photo
-                                    source={require("../../../assets/img/user-avatar.png")}
+                                    source={require("../../assets/img/user-avatar.png")}
                                 />
 
                                 <User>

@@ -14,6 +14,8 @@ import AppRoutes from "./src/routes/app.routes";
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 import "react-native-gesture-handler";
+import SignIn from "./src/screens/SignIn";
+import { AuthProvider } from "./src/hooks/auth";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -36,7 +38,10 @@ export default function App() {
 
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
-                    <AppRoutes />
+                    {/* <AppRoutes /> */}
+                    <AuthProvider>
+                        <SignIn />
+                    </AuthProvider>
                 </NavigationContainer>
             </ThemeProvider>
         </>

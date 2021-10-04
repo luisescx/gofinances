@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { CompositeNavigationProp } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { string } from "yup/lib/locale";
 import { TransactionType } from "./enums";
 
 export interface Transaction {
@@ -21,6 +22,20 @@ export interface Category {
     total: number;
     color: string;
     percent?: string;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    photo?: string;
+}
+
+export interface AuthorizationResponse {
+    params: {
+        access_token: string;
+    };
+    type: string;
 }
 
 export type RootParamList = {
