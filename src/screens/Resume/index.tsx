@@ -26,12 +26,15 @@ import { TransactionType } from "../../common/enums";
 import NoTransactionsCard from "../../components/NoTransactionsCard";
 import { View } from "react-native";
 import { ActivityIndicator } from "react-native";
+import { useAuth } from "../../hooks/auth";
 
 const Resume = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [totalByCategories, setTotalByCategories] = useState<Category[]>([]);
     const theme = useTheme();
+
+    const { user } = useAuth();
 
     function handleDateChange(action: "next" | "prev") {
         if (action === "next") {
@@ -43,7 +46,9 @@ const Resume = () => {
 
     const loadTransactions = async () => {
         setIsLoading(true);
-        const response = await AsyncStorage.getItem("@gofinances:transactions");
+        const response = await AsyncStorage.getItem(
+            `@gofinances:transactions_user:${user.id}`
+        );
 
         const storedTransactions: Transaction[] = response
             ? JSON.parse(response)

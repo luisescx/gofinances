@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Alert, Platform } from "react-native";
+import { ActivityIndicator, Alert, Platform } from "react-native";
 
 import {
     Container,
@@ -17,15 +17,20 @@ import SignInSocialButton from "../../components/SignInSocialButton";
 import GoogleSvg from "../../assets/svg/google.svg";
 import AppleSvg from "../../assets/svg/apple.svg";
 import { useAuth } from "../../hooks/auth";
+import { useTheme } from "styled-components";
 
 const SignIn = () => {
     const [isAndroid, setIsAndroid] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { signInWithGoogle } = useAuth();
+    const theme = useTheme();
+    const { signInWithGoogle, signInWithApple } = useAuth();
 
     const handleSignInWithGoogle = async () => {
         try {
-            await signInWithGoogle();
+            setIsLoading(true);
+
+            return signInWithGoogle();
         } catch (errorMessage) {
             console.log(errorMessage);
 
@@ -33,6 +38,25 @@ const SignIn = () => {
                 "Não foi possível conectar a conta google",
                 `${errorMessage}`
             );
+
+            setIsLoading(false);
+        }
+    };
+
+    const handleSignInWithApple = async () => {
+        try {
+            setIsLoading(true);
+
+            return signInWithApple();
+        } catch (errorMessage) {
+            console.log(errorMessage);
+
+            Alert.alert(
+                "Não foi possível conectar a conta apple",
+                `${errorMessage}`
+            );
+
+            setIsLoading(false);
         }
     };
 
@@ -79,9 +103,18 @@ const SignIn = () => {
                         <SignInSocialButton
                             title="Entrar com Apple"
                             svg={AppleSvg}
+                            onPress={handleSignInWithApple}
                         />
                     )}
                 </FooterWrapper>
+
+                {isLoading && (
+                    <ActivityIndicator
+                        style={{ marginTop: 18 }}
+                        color={theme.colors.primary}
+                        size="large"
+                    />
+                )}
             </Footer>
         </Container>
     );

@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeProvider } from "styled-components/native";
-import theme from "./src/global/styles/theme";
 import {
     useFonts,
     Poppins_400Regular,
@@ -9,13 +8,13 @@ import {
 } from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
 import { StatusBar } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import AppRoutes from "./src/routes/app.routes";
+import { AuthProvider, useAuth } from "./src/hooks/auth";
+import Routes from "./src/routes";
+
+import theme from "./src/global/styles/theme";
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 import "react-native-gesture-handler";
-import SignIn from "./src/screens/SignIn";
-import { AuthProvider } from "./src/hooks/auth";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -24,7 +23,9 @@ export default function App() {
         Poppins_700Bold,
     });
 
-    if (!fontsLoaded) {
+    const { userStorageLoading } = useAuth();
+
+    if (!fontsLoaded && userStorageLoading) {
         return <AppLoading />;
     }
 
@@ -37,12 +38,9 @@ export default function App() {
             />
 
             <ThemeProvider theme={theme}>
-                <NavigationContainer>
-                    {/* <AppRoutes /> */}
-                    <AuthProvider>
-                        <SignIn />
-                    </AuthProvider>
-                </NavigationContainer>
+                <AuthProvider>
+                    <Routes />
+                </AuthProvider>
             </ThemeProvider>
         </>
     );

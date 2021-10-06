@@ -25,6 +25,7 @@ import {
 } from "../../common/interfaces";
 import { NavigateEnum, TransactionType } from "../../common/enums";
 import uuid from "react-native-uuid";
+import { useAuth } from "../../hooks/auth";
 
 interface FormData {
     name: string;
@@ -54,6 +55,7 @@ const Register = () => {
     });
 
     const navigation = useNavigation<ProfileScreenNavigationProp>();
+    const { user } = useAuth();
 
     const {
         control,
@@ -112,7 +114,7 @@ const Register = () => {
         };
 
         try {
-            const dataKey = "@gofinances:transactions";
+            const dataKey = `@gofinances:transactions_user:${user.id}`;
 
             const transactionsData = await AsyncStorage.getItem(dataKey);
 

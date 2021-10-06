@@ -26,6 +26,7 @@ import { useFocusEffect } from "@react-navigation/core";
 import { TransactionType } from "../../common/enums";
 import { useTheme } from "styled-components";
 import NoTransactionsCard from "../../components/NoTransactionsCard";
+import { useAuth } from "../../hooks/auth";
 
 interface HighlightCardProps {
     entries: HighlightTypes;
@@ -106,11 +107,12 @@ const Dashboard = () => {
     });
 
     const theme = useTheme();
+    const { signOut, user } = useAuth();
 
     const loadTransactions = async () => {
         try {
             const response = await AsyncStorage.getItem(
-                "@gofinances:transactions"
+                `@gofinances:transactions_user:${user.id}`
             );
 
             const storedTransactions: Transaction[] = response
@@ -201,16 +203,14 @@ const Dashboard = () => {
                     <Header>
                         <UserWrapper>
                             <UserInfo>
-                                <Photo
-                                    source={require("../../assets/img/user-avatar.png")}
-                                />
+                                <Photo source={{ uri: user.photo }} />
 
                                 <User>
                                     <UserGreeting>Olá,</UserGreeting>
-                                    <UserName>Luis</UserName>
+                                    <UserName>{user.name}</UserName>
                                 </User>
                             </UserInfo>
-                            <LogoutButton>
+                            <LogoutButton onPress={signOut}>
                                 <Icon name="power" />
                             </LogoutButton>
                         </UserWrapper>
