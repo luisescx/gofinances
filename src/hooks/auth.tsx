@@ -53,16 +53,18 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
                 const userInfo = await response.json();
 
-                setUserLogged({
+                const newUser = {
                     id: String(userInfo.id),
                     email: userInfo.email,
                     name: userInfo.given_name,
                     photo: userInfo.picture,
-                });
+                };
+
+                setUserLogged(newUser);
 
                 await AsyncStorage.setItem(
                     userStorageKey,
-                    JSON.stringify(userLogged)
+                    JSON.stringify(newUser)
                 );
             }
         } catch (error) {

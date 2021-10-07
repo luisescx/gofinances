@@ -162,7 +162,7 @@ const Register = () => {
 
                         <TransactionTypes>
                             <TransactionButton
-                                title="Income"
+                                title="Entrada"
                                 type="up"
                                 onPress={() =>
                                     handleTransactionType(
@@ -175,7 +175,7 @@ const Register = () => {
                             />
 
                             <TransactionButton
-                                title="Outcome"
+                                title="Saída"
                                 type="down"
                                 onPress={() =>
                                     handleTransactionType(
