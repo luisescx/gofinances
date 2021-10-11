@@ -11,8 +11,8 @@
 ## :rocket: Como executar
 
 <ul>
+  <li>Instalar no seu celular o app Expo Go</li>
   <li>Clonar o projeto em seu computador</li>
-  <li>Instalar no seu dispositivo o app Expo Go</li>
   <li>No diretório raiz, executar o comando **expo start** para iniciar a aplicação</li>
 </ul>
 
