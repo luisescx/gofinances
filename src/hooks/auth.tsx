@@ -32,7 +32,7 @@ const AuthContext = createContext({} as IAuthContextData);
 const userStorageKey = "@gofinances:user";
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [userLogged, setUserLogged] = useState<User>({} as User);
+    const [user, setUser] = useState<User>({} as User);
     const [userStorageLoading, setUserStorageLoading] = useState(true);
 
     async function signInWithGoogle() {
@@ -60,7 +60,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                     photo: userInfo.picture,
                 };
 
-                setUserLogged(newUser);
+                setUser(newUser);
 
                 await AsyncStorage.setItem(
                     userStorageKey,
@@ -92,7 +92,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                         .givenName!}&length=1`,
                 };
 
-                setUserLogged(userLogged);
+                setUser(userLogged);
                 await AsyncStorage.setItem(
                     userStorageKey,
                     JSON.stringify(userLogged)
@@ -106,7 +106,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     async function signOut() {
-        setUserLogged({} as User);
+        setUser({} as User);
 
         await AsyncStorage.removeItem(userStorageKey);
     }
@@ -117,7 +117,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
             if (userStoraged) {
                 const userLogged = JSON.parse(userStoraged) as User;
-                setUserLogged(userLogged);
+                setUser(userLogged);
             }
 
             setUserStorageLoading(false);
@@ -129,12 +129,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return (
         <AuthContext.Provider
             value={{
-                user: {
-                    id: userLogged.id,
-                    name: userLogged.name,
-                    email: userLogged.email,
-                    photo: userLogged.photo,
-                },
+                user,
                 signInWithGoogle,
                 signInWithApple,
                 signOut,
