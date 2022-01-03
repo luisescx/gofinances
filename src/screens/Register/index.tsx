@@ -189,6 +189,7 @@ const Register = () => {
                         </TransactionTypes>
 
                         <CategorySelectButton
+                            testID="button-category"
                             title={category.name}
                             onPress={handleOpenModal}
                         />
@@ -200,7 +201,11 @@ const Register = () => {
                     />
                 </Form>
 
-                <Modal visible={showModal} transparent={true}>
+                <Modal
+                    testID="modal-category"
+                    visible={showModal}
+                    transparent={true}
+                >
                     <CategorySelect
                         closeSelectCategory={handleCloseModal}
                         category={category}
